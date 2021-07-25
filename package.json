@@ -2,10 +2,11 @@
   "name": "infinitescrollinglist",
   "version": "1.0.0",
   "description": "UXE Exercise",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "index.jsx",
+    "scripts": {
+        "build": "esbuild index.jsx --bundle --minify --outfile=build.js && serve .",
+        "dev": "esbuild index.jsx --bundle --sourcemap --outfile=build.js && serve ."
+    },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/seanim0920/InfiniteScrollingList.git"
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/seanim0920/InfiniteScrollingList#readme",
   "dependencies": {
+    "esbuild": "^0.12.15",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
