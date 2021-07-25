@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/seanim0920/InfiniteScrollingList/issues"
   },
-  "homepage": "https://github.com/seanim0920/InfiniteScrollingList#readme"
+  "homepage": "https://github.com/seanim0920/InfiniteScrollingList#readme",
+  "dependencies": {
+    "react": "^17.0.2"
+  }
 }
