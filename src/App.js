@@ -25,7 +25,7 @@ const Row = React.memo(({ data, index, style }) => {
     );
 }, areEqual);
 
-const App = () => {
+const App = ({height, width}) => {
     const [items, setItems] = React.useState([]);
 
     React.useEffect(() => {
@@ -55,8 +55,8 @@ const App = () => {
 
     return (
         <List
-            height={1000}
-            width={1000}
+            height={height}
+            width={width}
             itemCount={items.length}
             itemData={{ items, toggleItemActive }}
             itemSize={getItemSize}
