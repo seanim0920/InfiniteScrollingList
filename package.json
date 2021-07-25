@@ -1,0 +1,20 @@
+{
+  "name": "infinitescrollinglist",
+  "version": "1.0.0",
+  "description": "UXE Exercise",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanim0920/InfiniteScrollingList.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seanim0920/InfiniteScrollingList/issues"
+  },
+  "homepage": "https://github.com/seanim0920/InfiniteScrollingList#readme"
+}
