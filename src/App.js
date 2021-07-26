@@ -1,26 +1,6 @@
 import React from 'react';
 import './App.css';
-import { VariableSizeList as List, areEqual } from 'react-window'
-
-const Row = React.memo(({ data, index, style }) => {
-    // Data passed to List as "itemData" is available as props.data
-    const { items, toggleItemActive } = data;
-    const item = items[index];
-
-    return (
-        <div
-            onClick={() => toggleItemActive(index)}
-            className={"box"}
-            style={style}
-        >
-            <div
-                className={"card"}
-            >
-                {item.label} is {item.isActive ? 'active' : 'inactive'}
-            </div>
-        </div>
-    );
-}, areEqual);
+import List from './DynamicallySizedList'
 
 const App = ({ height, width }) => {
     const [items, setItems] = React.useState([]);
@@ -53,16 +33,11 @@ const App = ({ height, width }) => {
 
     return (
         <List
-            height={height}
-            width={width / 3}
-            itemCount={items.length}
-            itemData={{ items, toggleItemActive }}
-            itemSize={index => {
-                return //some function that takes width, items[index].label.length and line-height
-            }}
-        >
-            {Row}
-        </List>
+            containerHeight={height}
+            containerWidth={width}
+            items={items}
+            onAction={toggleItemActive}
+        />
     );
 };
 
