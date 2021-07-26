@@ -11,12 +11,13 @@ import IconButton from "@material-ui/core/IconButton";
 
 const loading = false;
 
-export default memo(function ListRow({ item, setRowSize, onAction, index, style }) {
+export default memo(function ListRow({ item, currentRowSize, setRowSize, onAction, index, style }) {
     const root = useRef();
     const [windowWidth] = useWindowSize();
 
     useEffect(() => {
-        setRowSize(index, root.current.getBoundingClientRect().height);
+        if (currentRowSize !== root.current.getBoundingClientRect().height)
+            setRowSize(index, root.current.getBoundingClientRect().height);
     }, [windowWidth]);
 
     return (

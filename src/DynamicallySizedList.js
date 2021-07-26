@@ -37,6 +37,7 @@ export default function DynamicallySizedList({ items, onAction }) {
                         index={index}
                         style={{...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)`}}
                         onAction={onAction}
+                        currentRowSize={getRowSize(index)}
                         setRowSize={setRowSize}
                     />
                 }
