@@ -11,7 +11,15 @@ export default function DynamicallySizedList({ items, onAction }) {
     const listRef = useRef();
     const rowSizes = React.useRef({});
     const [windowWidth, windowHeight] = useWindowSize();
+    const [listHeight, setListHeight] = useState(0);
     const root = useRef();
+
+    useEffect(() => {
+        console.log(listHeight);
+        console.log("size changed")
+        if (root.current)
+            setListHeight(root.current.getBoundingClientRect().height);
+    }, [windowHeight])
 
     const getRowSize = React.useCallback(index => rowSizes.current[index] || 150, []);
  
@@ -25,7 +33,7 @@ export default function DynamicallySizedList({ items, onAction }) {
         items.length > 0 ?
         <div style={{height: "100%"}} ref={root}>
             <List
-                height={root.current ? root.current.getBoundingClientRect().height : windowHeight}
+                height={listHeight}
                 width={"100%"}
                 itemCount={items.length}
                 itemSize={getRowSize}

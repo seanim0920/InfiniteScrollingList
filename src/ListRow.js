@@ -25,7 +25,7 @@ export default memo(function ListRow({ item, currentRowSize, setRowSize, onActio
             style={style}
             className={"cell"}
         >
-            {//will we need item.id? probably as a key
+            {//will we need item.id? probably as a key. take this part out and use it as an argument
                 loading ? null :
                     <Card
                         onClick={() => onAction(index)}
