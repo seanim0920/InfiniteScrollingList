@@ -7,7 +7,7 @@ function randomDate(start, end) {
     return date.getTime();
   }
 
-const App = ({ height, width }) => {
+const App = () => {
     const [items, setItems] = React.useState([]);
 
     React.useEffect(() => {
@@ -45,8 +45,6 @@ const App = ({ height, width }) => {
 
     return (
         <List
-            containerHeight={height}
-            containerWidth={width}
             items={items}
             onAction={toggleItemActive}
         />

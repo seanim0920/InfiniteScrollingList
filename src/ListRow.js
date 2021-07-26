@@ -16,7 +16,6 @@ export default memo(function ListRow({ item, setRowSize, onAction, index, style 
     const [windowWidth] = useWindowSize();
 
     useEffect(() => {
-        console.log(windowWidth);
         setRowSize(index, root.current.getBoundingClientRect().height);
     }, [windowWidth]);
 

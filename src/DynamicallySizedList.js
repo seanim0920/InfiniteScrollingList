@@ -7,10 +7,11 @@ import { useWindowSize } from "./hooks/getCurrentWindowSize";
 const GUTTER_SIZE = 15;
 const MARGIN_SIZE = 30;
 
-export default function DynamicallySizedList({ items, onAction, containerHeight }) { //layout only. we may be able to calculate width and height from in here.
+export default function DynamicallySizedList({ items, onAction }) {
     const listRef = useRef();
     const rowSizes = React.useRef({});
     const [windowWidth, windowHeight] = useWindowSize();
+    const root = useRef();
 
     const getRowSize = React.useCallback(index => rowSizes.current[index] || 150, []);
  
@@ -22,9 +23,9 @@ export default function DynamicallySizedList({ items, onAction, containerHeight 
 
     return (
         items.length > 0 ?
-        <div>
+        <div style={{height: "100%"}} ref={root}>
             <List
-                height={windowHeight}
+                height={root.current ? root.current.getBoundingClientRect().height : windowHeight}
                 width={"100%"}
                 itemCount={items.length}
                 itemSize={getRowSize}
