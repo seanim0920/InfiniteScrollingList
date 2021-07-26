@@ -1,20 +1,8 @@
 import React from 'react';
 import './App.css';
-import { VariableSizeList as List, areEqual } from 'react-window'
+import { FlatList } from 'react-native'
 
-// These row heights are arbitrary.
-// Yours should be based on the content of the row.
-const rowHeights = new Array(1000)
-    .fill(true)
-    .map(() => 25 + Math.round(Math.random() * 50));
-
-const getItemSize = index => rowHeights[index];
-
-const Row = React.memo(({ data, index, style }) => {
-    // Data passed to List as "itemData" is available as props.data
-    const { items, toggleItemActive } = data;
-    const item = items[index];
-
+const Row = React.memo(({ item }) => {
     return (
         <div
             onClick={() => toggleItemActive(index)}
@@ -54,15 +42,9 @@ const App = ({height, width}) => {
     }
 
     return (
-        <List
-            height={height}
-            width={width}
-            itemCount={items.length}
-            itemData={{ items, toggleItemActive }}
-            itemSize={getItemSize}
-        >
-            {Row}
-        </List>
+        <FlatList
+            renderItem={Row}
+        />
     );
 };
 
