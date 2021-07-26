@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState, useCallback, memo } from 'react';
 import './App.css';
 import { VariableSizeList as List, areEqual } from 'react-window'
-import { useWindowSize } from "./getCurrentWindowSize";
+import ListRow from './ListRow'
 
 const GUTTER_SIZE = 15;
 
-const DynamicallySizedList = ({ items, onAction, containerHeight }) => { //layout only. we may be able to calculate width and height from in here.
+export default function DynamicallySizedList({ items, onAction, containerHeight }) { //layout only. we may be able to calculate width and height from in here.
     const listRef = useRef();
     const rowSizes = React.useRef({});
 
@@ -13,7 +13,6 @@ const DynamicallySizedList = ({ items, onAction, containerHeight }) => { //layou
  
     const setRowSize = React.useCallback((index, size) => {
         rowSizes.current[index] = size + GUTTER_SIZE;
-        console.log("setting size map ", Date.now());
         
         listRef.current.resetAfterIndex(index); //may be able to collect them all and use a timeout function for debouncing
       }, []);
@@ -29,7 +28,7 @@ const DynamicallySizedList = ({ items, onAction, containerHeight }) => { //layou
                 ref={listRef}
             >
                 {
-                    ({ index, style }) => <Row
+                    ({ index, style }) => <ListRow
                         item={items[index]}
                         index={index}
                         style={{...style, top: style.top + GUTTER_SIZE}}
@@ -42,30 +41,3 @@ const DynamicallySizedList = ({ items, onAction, containerHeight }) => { //layou
         : null //placeholder
     );
 };
-
-const Row = memo(({ item, setRowSize, onAction, index, style }) => {
-    const root = useRef();
-    const [windowWidth] = useWindowSize();
-
-    useEffect(() => {
-        console.log("I am gay ", root.current.getBoundingClientRect().height);
-        setRowSize(index, root.current.getBoundingClientRect().height);
-    }, [windowWidth]);
-
-    return (
-        <div
-            style={style}
-            className={"cell"}
-        >
-            <div
-                onClick={() => onAction(index)}
-                className={"card"}
-                ref={root}
-            >
-                {item.label} is {item.isActive ? 'active' : 'inactive'}
-            </div>
-        </div>
-    );
-}, areEqual);
-
-export default DynamicallySizedList;
