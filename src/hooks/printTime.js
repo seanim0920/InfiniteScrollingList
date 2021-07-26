@@ -1,5 +1,5 @@
-export const printTimeFromMilliseconds = (dateInMilliseconds) => {
-    const dateInfo = new Date(dateInMilliseconds);
+export const printTime = (timestamp) => {
+    const dateInfo = new Date(timestamp);
 
     var totalTime = dateInfo.getTime();
 
