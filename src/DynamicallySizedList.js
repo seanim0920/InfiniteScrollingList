@@ -6,15 +6,13 @@ import { useWindowSize } from "./getCurrentWindowSize";
 const DynamicallySizedList = ({ items, onAction, containerHeight, containerWidth }) => { //layout only. we may be able to calculate width and height from in here.
     const listRef = React.useRef();
     const rowSizes = {};
-    const [windowWidth] = useWindowSize();
-    
+
     React.useEffect(() => {
-        console.log(windowWidth);
         console.log(rowSizes);
         listRef.current.resetAfterIndex(0); //refresh list sizes cache
-    }, [items, windowWidth, rowSizes]);
+    }, [items, rowSizes]);
 
-    const setRowSize = ({index, size}) => {
+    const setRowSize = ({ index, size }) => {
         rowSizes[index] = size;
     }
 
@@ -23,20 +21,25 @@ const DynamicallySizedList = ({ items, onAction, containerHeight, containerWidth
             height={containerHeight}
             width={containerWidth}
             itemCount={items.length}
-            itemData={{ items, onAction, setRowSize, windowWidth }}
             itemSize={index => 100}//rowSizes.length > index ? rowSizes[index] : 100}
             ref={listRef}
         >
-            {Row}
+            {
+                ({ index, style }) => <Row
+                item={items[index]}
+                index={index}
+                style={style}
+                onAction={onAction}
+                setRowSize={setRowSize}
+                />
+            }
         </List>
     );
 };
 
-const Row = React.memo(({ data, index, style }) => {
-    // Data passed to List as "itemData" is available as props.data
-    const { items, onAction, setRowSize, windowWidth } = data;
-    const item = items[index];
+const Row = React.memo(({ item, setRowSize, onAction, index, style }) => {
     const root = React.useRef();
+    const [windowWidth] = useWindowSize();
 
     React.useEffect(() => {
         setRowSize(index, root.current.getBoundingClientRect().height);
