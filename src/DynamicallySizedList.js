@@ -3,16 +3,16 @@ import './App.css';
 import { VariableSizeList as List, areEqual } from 'react-window'
 import { useWindowSize } from "./getCurrentWindowSize";
 
+const GUTTER_SIZE = 15;
+
 const DynamicallySizedList = ({ items, onAction, containerHeight }) => { //layout only. we may be able to calculate width and height from in here.
     const listRef = useRef();
-    const sizeMap = React.useRef({});
+    const rowSizes = React.useRef({});
 
-    useEffect(()=>{console.log("finished setting sizemap")}, [sizeMap])
-
-    const getSize = React.useCallback(index => sizeMap.current[index] || 100, []);
+    const getRowSize = React.useCallback(index => rowSizes.current[index] || 100, []);
  
-    const setSize = React.useCallback((index, size) => {
-        sizeMap.current[index] = size;
+    const setRowSize = React.useCallback((index, size) => {
+        rowSizes.current[index] = size + GUTTER_SIZE;
         console.log("setting size map ", Date.now());
         
         listRef.current.resetAfterIndex(index); //may be able to collect them all and use a timeout function for debouncing
@@ -25,16 +25,16 @@ const DynamicallySizedList = ({ items, onAction, containerHeight }) => { //layou
                 height={containerHeight}
                 width={"100%"}
                 itemCount={items.length}
-                itemSize={getSize}
+                itemSize={getRowSize}
                 ref={listRef}
             >
                 {
                     ({ index, style }) => <Row
                         item={items[index]}
                         index={index}
-                        style={style}
+                        style={{...style, top: style.top + GUTTER_SIZE}}
                         onAction={onAction}
-                        setRowSize={setSize}
+                        setRowSize={setRowSize}
                     />
                 }
             </List>
@@ -55,6 +55,7 @@ const Row = memo(({ item, setRowSize, onAction, index, style }) => {
     return (
         <div
             style={style}
+            className={"cell"}
         >
             <div
                 onClick={() => onAction(index)}

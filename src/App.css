@@ -10,14 +10,10 @@ body, #root {
     background-color: #eeeeee;
 }
 
-.box {
-    margin: 0;
-}
-
 .card {
-    margin: 0;
+    padding: 10px;
     background-color: #ffffff;
     text-align: center;
     overflow-wrap: break-word;
-    width: 100%;
+    max-width: 750px;
 }
