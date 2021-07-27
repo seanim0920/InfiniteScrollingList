@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback, memo, forwardRef } from 'react';
 import './App.css';
 import { VariableSizeList as List, areEqual } from 'react-window'
-import ListRow from './ListRow'
+import ListRow from './ResponsiveListRow'
 import { getContainerHeight } from './hooks/getContainerHeight'
 import { mergeRefs } from './hooks/mergeRefs'
 
@@ -9,7 +9,7 @@ const GUTTER_SIZE = 15;
 const MARGIN_SIZE = 30;
 
 export const DynamicallySizedList = forwardRef(
-    ({ items, onItemsRendered }, ref) => {
+    ({ items, onItemsRendered, children }, ref) => {
         const localListRef = useRef();
         const rowSizes = useRef({});
         const listHeight = getContainerHeight();
@@ -35,12 +35,14 @@ export const DynamicallySizedList = forwardRef(
                 onItemsRendered={onItemsRendered}
             >
                 {
-                    ({ index, style }) => <ListRow //should be props.children
+                    ({ index, style }) => <ListRow
                         item={items[index]}
                         index={index}
                         style={{ ...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)` }}
                         setRowSize={setRowSize}
-                    />
+                    >
+                        {children}
+                    </ListRow>
                 }
             </List>
         );

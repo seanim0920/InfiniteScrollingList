@@ -1,38 +1,39 @@
-import React, { useEffect, forwardRef } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import './App.css';
-import {DynamicallySizedList} from './DynamicallySizedList'
+import { DynamicallySizedList } from './DynamicallySizedList'
 import InfiniteLoader from "react-window-infinite-loader";
+import Card from "./components/Card"
 
 const DataProvider = () => {
-    const [data, setData] = React.useState([]);
-  
+    const [data, setData] = useState([]);
+
     const isItemLoaded = index => index < data.length && data[index] !== null;
 
     const loadMoreItems = (startIndex, stopIndex) => {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const newData = [...data];
-          for (let idx = startIndex; idx < stopIndex; idx++) {
-            newData[idx] = {
-                author: {
-                    name: Math.random()
-                        .toString(36)
-                        .substr(2)
-                        .repeat(Math.ceil(Math.random() * 10)),
-                    photoUrl: "https://picsum.photos/200",
-                },
-                updated: Date.now(),
-                content: (Math.random()
-                    .toString(36)
-                    .substr(2) + " ")
-                    .repeat(Math.ceil(Math.random() * 10)),
-            };
-            newData.push(null);
-          }
-          setData(newData);
-          resolve();
-        }, 2000);
-      });
+        return new Promise(resolve => {
+            setTimeout(() => {
+                const newData = [...data];
+                for (let idx = startIndex; idx < stopIndex; idx++) {
+                    newData[idx] = {
+                        author: {
+                            name: Math.random()
+                                .toString(36)
+                                .substr(2)
+                                .repeat(Math.ceil(Math.random() * 10)),
+                            photoUrl: "https://picsum.photos/200",
+                        },
+                        updated: Date.now(),
+                        content: (Math.random()
+                            .toString(36)
+                            .substr(2) + " ")
+                            .repeat(Math.ceil(Math.random() * 10)),
+                    };
+                    newData.push(null);
+                }
+                setData(newData);
+                resolve();
+            }, 2000);
+        });
     };
 
     useEffect(() => {
@@ -71,7 +72,15 @@ const DataProvider = () => {
                     onItemsRendered={onItemsRendered}
                     ref={ref}
                 >
-
+                    {
+                        ({ item, index }) => (
+                            <Card
+                                item={item}
+                                index={index}
+                                onClick={() => { }}
+                            />
+                        )
+                    }
                 </DynamicallySizedList>
             )}
         </InfiniteLoader>
