@@ -9,7 +9,7 @@ const GUTTER_SIZE = 15;
 const MARGIN_SIZE = 30;
 
 export const DynamicallySizedList = forwardRef(
-    ({ items, onAction, }, ref) => {
+    ({ items, onAction, onItemsRendered }, ref) => {
         const localListRef = useRef();
         const rowSizes = useRef({});
         const listHeight = getContainerHeight();
@@ -28,7 +28,9 @@ export const DynamicallySizedList = forwardRef(
                 width={"100%"}
                 itemCount={items.length}
                 itemSize={getRowSize}
+                itemData={items}
                 ref={mergeRefs(localListRef, ref)}
+                onItemsRendered={onItemsRendered}
             >
                 {
                     ({ index, style }) => <ListRow

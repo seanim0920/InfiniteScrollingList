@@ -42,7 +42,7 @@ export default memo(function ListRow({ item, currentRowSize, setRowSize, onActio
                             }
                             title={
                                 <strong>
-                                    {item.author.name}
+                                    {"index: " + index + ", name: " + item.author.name}
                                 </strong>
                             }
                             subheader={
