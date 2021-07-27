@@ -13,8 +13,8 @@ export default function Cell({photoHost, item, index}) {
             className={"card"}
         >
             <CardHeader
-                avatar={ //need a placeholder while this image loads. what units are proper??
-                    <Avatar height={"3rem"} width={"3rem"} alt={item.author.name} src={photoHost + item.author.photoUrl} aria-label="recipe">
+                avatar={ //what units are proper??
+                    <Avatar height={"30rem"} width={"30rem"} alt={item.author.name} src={photoHost + item.author.photoUrl} aria-label="recipe">
                         {item.author.name.charAt(0)}
                     </Avatar>
                 }
@@ -23,7 +23,7 @@ export default function Cell({photoHost, item, index}) {
                 }
                 title={
                     <strong>
-                        {"index: " + index + ", name: " + item.author.name}
+                        {item.author.name}
                     </strong>
                 }
                 subheader={

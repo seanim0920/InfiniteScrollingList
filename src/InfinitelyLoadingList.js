@@ -3,7 +3,7 @@ import './App.css';
 import { DynamicallySizedList } from './DynamicallySizedList'
 import InfiniteLoader from "react-window-infinite-loader";
 
-export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync }) => {
+export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, hasNextPage }) => {
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
     const [data, setData] = useState([null]);
 
@@ -17,7 +17,7 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync }) => {
             const newData = [...data];
             newData.pop();
             newData.push(...newItems);
-            newData.push(null);
+            if (hasNextPage) newData.push(null);
             setData(newData);
         })
         .catch(e=>console.warn("Error loading more items: ", e))

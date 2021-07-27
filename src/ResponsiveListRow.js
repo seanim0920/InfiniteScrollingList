@@ -25,7 +25,9 @@ export default memo(function ResponsiveListRow({ item, setRowSize, index, style,
                             children({ item, index })
                         }
                     </div>
-                    : null
+                    : <h2>
+                        Loading...
+                    </h2>
             }
         </div>
     );
