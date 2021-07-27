@@ -16,7 +16,7 @@ export default memo(function ListRow({ item, currentRowSize, setRowSize, onActio
     const [windowWidth] = useWindowSize();
 
     useEffect(() => {
-        if (currentRowSize !== root.current.getBoundingClientRect().height)
+        if (root.current && currentRowSize !== root.current.getBoundingClientRect().height)
             setRowSize(index, root.current.getBoundingClientRect().height); //need to tell the list to resize us and send our new height
     }, [windowWidth]);
 
@@ -55,7 +55,12 @@ export default memo(function ListRow({ item, currentRowSize, setRowSize, onActio
                             {item.content}
                         </CardContent>
                     </Card>
-                    : null
+                    : 
+                    <Card
+                        onClick={() => onAction(index)}
+                        className={"card"}
+                        ref={root}>
+                    </Card>
             }
         </div>
     );
