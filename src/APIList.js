@@ -11,9 +11,7 @@ export default function App () {
             if (nextPageToken) url += '&pageToken=' + nextPageToken;
 
             ajaxCall(url)
-            .then(response => {
-                return resolve(response.messages, response.pageToken);
-            }) //if this fails?
+            .then(response => resolve([response.messages, response.pageToken])) //if this fails? //can't pass multiple values directly, as seen here https://stackoverflow.com/questions/28703625/how-do-you-properly-return-multiple-values-from-a-promise
             .catch(e => reject(e));
         });
     }

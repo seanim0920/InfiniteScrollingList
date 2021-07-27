@@ -14,11 +14,11 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
         setIsNextPageLoading(true);
 
         loadMoreItemsAsync(nextPageToken)
-        .then((newItems, nextPageToken)=>{
+        .then(([newItems, nextPageToken])=>{
             const newData = [...data];
             newData.pop();
             newData.push(...newItems);
-            if (nextPageToken) {
+            if (nextPageToken) { //what if it's the end of the list? make sure the list can end properly. test it
                 setNextPageToken(nextPageToken);
                 newData.push(null);
             }
