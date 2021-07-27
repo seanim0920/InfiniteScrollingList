@@ -14,7 +14,7 @@ export const DynamicallySizedList = forwardRef(
         const rowSizes = useRef({});
         const listHeight = getContainerHeight();
 
-        const getRowSize = useCallback(index => rowSizes.current[index] || 150, []);
+        const getRowSize = useCallback(index => rowSizes.current[index] || 400, []);
 
         const setRowSize = useCallback((index, size) => {
             rowSizes.current[index] = size + GUTTER_SIZE;
@@ -33,7 +33,7 @@ export const DynamicallySizedList = forwardRef(
                 onItemsRendered={onItemsRendered}
             >
                 {
-                    ({ index, style }) => <ListRow
+                    ({ index, style }) => <ListRow //should be props.children
                         item={items[index]}
                         index={index}
                         style={{ ...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)` }}

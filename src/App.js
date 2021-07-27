@@ -13,20 +13,7 @@ const DataProvider = () => {
         setTimeout(() => {
           const newData = [...data];
           for (let idx = startIndex; idx < stopIndex; idx++) {
-            newData[idx] = faker.lorem.sentence();
-          }
-          setData(newData);
-          resolve();
-        }, 2000);
-      });
-    };
-
-    useEffect(() => {
-        //populate array initially
-        //initialized data to junk. we should remove this later
-        let initialItems = Array(100)
-            .fill(true)
-            .map(_ => ({
+            newData[idx] = {
                 author: {
                     name: Math.random()
                         .toString(36)
@@ -39,7 +26,21 @@ const DataProvider = () => {
                     .toString(36)
                     .substr(2) + " ")
                     .repeat(Math.ceil(Math.random() * 10)),
-            }));
+            };
+            newData.push(null);
+          }
+          setData(newData);
+          resolve();
+        }, 2000);
+      });
+    };
+
+    useEffect(() => {
+        //populate array initially
+        //initialized data to junk. we should remove this later
+        let initialItems = Array(100)
+            .fill(true)
+            .map(_ => null);
 
         setData(initialItems);
     }, []);
