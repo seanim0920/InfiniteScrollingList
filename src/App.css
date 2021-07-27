@@ -23,13 +23,11 @@ html, body {
     overflow-wrap: break-word;
 }
 
-.MuiCardHeader-root {
-    font-weight: bold;
-}
-
 header {
     margin: 0;
-    padding-left: 2rem;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 2em;
     background-color: purple;
     color: white;
 }

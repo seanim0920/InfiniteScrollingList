@@ -5,16 +5,21 @@ import InfiniteLoader from "react-window-infinite-loader";
 import Card from "./components/Card"
 
 const DataProvider = () => {
-    const [data, setData] = useState([]);
+    const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+    const [data, setData] = useState([null]);
 
-    const isItemLoaded = index => index < data.length && data[index] !== null;
+    const isItemLoaded = index => index < data.length - 33; //condition to determine if we should load more items
 
-    const loadMoreItems = (startIndex, stopIndex) => {
+    const loadMoreItems = isNextPageLoading ? () => {} : (startIndex, stopIndex) => {
+        console.log("loading more")
+        setIsNextPageLoading(true);
         return new Promise(resolve => {
             setTimeout(() => {
                 const newData = [...data];
-                for (let idx = startIndex; idx < stopIndex; idx++) {
-                    newData[idx] = {
+                //should use splice method here. or delete the last item and push the extra 100 items.
+                newData.pop();
+                for (let i = 0; i < 100; ++i) {
+                    newData.push({
                         author: {
                             name: Math.random()
                                 .toString(36)
@@ -27,24 +32,16 @@ const DataProvider = () => {
                             .toString(36)
                             .substr(2) + " ")
                             .repeat(Math.ceil(Math.random() * 10)),
-                    };
-                    newData.push(null);
+                    });
                 }
+                newData.push(null);
+                console.log("added new data", startIndex, " ", stopIndex)
                 setData(newData);
+                setIsNextPageLoading(false);
                 resolve();
             }, 2000);
         });
     };
-
-    useEffect(() => {
-        //populate array initially
-        //initialized data to junk. we should remove this later
-        let initialItems = Array(100)
-            .fill(true)
-            .map(_ => null);
-
-        setData(initialItems);
-    }, []);
 
     const toggleItemActive = index => {
         /*
@@ -63,7 +60,7 @@ const DataProvider = () => {
     return (
         <InfiniteLoader
             isItemLoaded={isItemLoaded}
-            itemCount={data.length}
+            itemCount={data.length + 1}
             loadMoreItems={loadMoreItems}
         >
             {({ onItemsRendered, ref }) => (
