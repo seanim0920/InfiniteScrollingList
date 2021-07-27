@@ -10,7 +10,7 @@ export default memo(function ResponsiveListRow({ item, setRowSize, index, style,
     const [windowWidth] = useWindowSize();
 
     useEffect(() => {
-        setRowSize(index, root.current.getBoundingClientRect().height); //need to tell the list to resize us and send our new height
+        if (item) setRowSize(index, root.current.getBoundingClientRect().height); //need to tell the list to resize us and send our new height
     }, [windowWidth, item]);
 
     return (
@@ -18,13 +18,17 @@ export default memo(function ResponsiveListRow({ item, setRowSize, index, style,
             style={style}
             className={"cell"}
         >
-            <div
-                ref={root}
-            >
-                {//will we need item.id? probably as a key. take this part out and use it as an argument
-                    item ? children({ item, index }) : null
-                }
-            </div>
+            {
+                item ?
+                    <div
+                        ref={root}
+                    >
+                        {//will we need item.id? probably as a key. take this part out and use it as an argument
+                            children({ item, index })
+                        }
+                    </div>
+                    : null
+            }
         </div>
     );
 }, areEqual);
