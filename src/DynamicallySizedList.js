@@ -1,3 +1,5 @@
+//A VariableSizeList that manages the sizes of the list rows
+
 import React, { useRef, useEffect, useState, useCallback, memo, forwardRef } from 'react';
 import './App.css';
 import { VariableSizeList as List, areEqual } from 'react-window'
