@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useCallback, memo } from 'react';
 import './App.css';
 import { VariableSizeList as List, areEqual } from 'react-window'
 import ListRow from './ListRow'
-import { useWindowSize } from "./hooks/getCurrentWindowSize";
+import { getContainerHeight } from './ContainerHeightCalculator'
 
 const GUTTER_SIZE = 15;
 const MARGIN_SIZE = 30;
@@ -10,28 +10,18 @@ const MARGIN_SIZE = 30;
 export default function DynamicallySizedList({ items, onAction }) {
     const listRef = useRef();
     const rowSizes = React.useRef({});
-    const [windowWidth, windowHeight] = useWindowSize();
-    const [listHeight, setListHeight] = useState(0);
-    const root = useRef();
-
-    useEffect(() => {
-        console.log(listHeight);
-        console.log("size changed")
-        if (root.current)
-            setListHeight(root.current.getBoundingClientRect().height);
-    }, [windowHeight])
+    const listHeight = getContainerHeight();
 
     const getRowSize = React.useCallback(index => rowSizes.current[index] || 150, []);
- 
+
     const setRowSize = React.useCallback((index, size) => {
         rowSizes.current[index] = size + GUTTER_SIZE;
-        
+
         listRef.current.resetAfterIndex(index); //may be able to collect them all and use a timeout function for debouncing
-      }, []);
+    }, []);
 
     return (
         items.length > 0 ?
-        <div style={{height: "100%"}} ref={root}>
             <List
                 height={listHeight}
                 width={"100%"}
@@ -43,14 +33,13 @@ export default function DynamicallySizedList({ items, onAction }) {
                     ({ index, style }) => <ListRow
                         item={items[index]}
                         index={index}
-                        style={{...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)`}}
+                        style={{ ...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)` }}
                         onAction={onAction}
                         currentRowSize={getRowSize(index)}
                         setRowSize={setRowSize}
                     />
                 }
             </List>
-        </div>
-        : null //placeholder
+            : null //placeholder
     );
 };
