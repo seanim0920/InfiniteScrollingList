@@ -3,8 +3,6 @@ import './App.css';
 import { areEqual } from 'react-window'
 import { useWindowSize } from "./hooks/getCurrentWindowSize";
 
-const loading = false;
-
 export default memo(function ResponsiveListRow({ item, setRowSize, index, style, children }) {
     const root = useRef();
     const [windowWidth] = useWindowSize();

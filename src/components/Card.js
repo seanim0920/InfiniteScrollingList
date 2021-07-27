@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 
-export default function Cell({item, index}) {
+export default function Cell({photoHost, item, index}) {
     return (
         <Card
             onClick={() => { }}
@@ -14,7 +14,7 @@ export default function Cell({item, index}) {
         >
             <CardHeader
                 avatar={ //need a placeholder while this image loads. what units are proper??
-                    <Avatar height={"3rem"} width={"3rem"} alt={item.author.name} src={item.author.photoUrl} aria-label="recipe">
+                    <Avatar height={"3rem"} width={"3rem"} alt={item.author.name} src={photoHost + item.author.photoUrl} aria-label="recipe">
                         {item.author.name.charAt(0)}
                     </Avatar>
                 }
