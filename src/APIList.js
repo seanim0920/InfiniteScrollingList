@@ -4,19 +4,15 @@ import { InfinitelyLoadingList } from './InfinitelyLoadingList'
 import { ajaxCall } from './hooks/ajaxCall'
 import Card from './components/Card'
 
-export default function App ({ batchSize = 100, APIendpoint, children }) {
-    const [nextToken, setNextToken] = useState();
-
-    const loadMoreItems = () => {
+export default function App () {
+    const loadMoreItems = (nextPageToken) => {
         return new Promise(function (resolve, reject) {
-            let url = 'http://message-list.appspot.com/messages?limit=' + batchSize;
-            if (nextToken) url += '&pageToken=' + nextToken;
+            let url = 'http://message-list.appspot.com/messages?limit=' + 100;
+            if (nextPageToken) url += '&pageToken=' + nextPageToken;
 
             ajaxCall(url)
             .then(response => {
-                if (response.pageToken) setNextToken(response.pageToken)
-                else setNextToken(null); //this could probably be done outside apilist?
-                return resolve(response.messages);
+                return resolve(response.messages, response.pageToken);
             }) //if this fails?
             .catch(e => reject(e));
         });
@@ -24,8 +20,8 @@ export default function App ({ batchSize = 100, APIendpoint, children }) {
 
     return (
         <InfinitelyLoadingList
-            hasNextPage={nextToken !== null}
             loadMoreItemsAsync={loadMoreItems}
+            loadingPoint={30}
         >
             {
                 ({ item, index }) => (
