@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useState, useCallback, memo } from 'react';
-import { useWindowSize } from "./hooks/getCurrentWindowSize";
+import { useWindowSize } from "./getCurrentWindowSize";
 
 const rootElement = document.getElementById('root');
 const heightMeasurer = document.createElement('div');
+heightMeasurer.style.visibility = "hidden";
 heightMeasurer.style.height = "100%";
 rootElement.prepend(heightMeasurer);
 
@@ -15,7 +16,6 @@ export const getContainerHeight = () => {
     }, [windowHeight])
 
     useEffect(() => {
-        console.log("height of container is ", rootElement.getBoundingClientRect().height);
         setContainerHeight(rootElement.getBoundingClientRect().height);
     }, [containerHeight])
 

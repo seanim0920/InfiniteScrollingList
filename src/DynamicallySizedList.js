@@ -1,33 +1,34 @@
-import React, { useRef, useEffect, useState, useCallback, memo } from 'react';
+import React, { useRef, useEffect, useState, useCallback, memo, forwardRef } from 'react';
 import './App.css';
 import { VariableSizeList as List, areEqual } from 'react-window'
 import ListRow from './ListRow'
-import { getContainerHeight } from './ContainerHeightCalculator'
+import { getContainerHeight } from './hooks/getContainerHeight'
+import { mergeRefs } from './hooks/mergeRefs'
 
 const GUTTER_SIZE = 15;
 const MARGIN_SIZE = 30;
 
-export default function DynamicallySizedList({ items, onAction }) {
-    const listRef = useRef();
-    const rowSizes = React.useRef({});
-    const listHeight = getContainerHeight();
+export const DynamicallySizedList = forwardRef(
+    ({ items, onAction, }, ref) => {
+        const localListRef = useRef();
+        const rowSizes = useRef({});
+        const listHeight = getContainerHeight();
 
-    const getRowSize = React.useCallback(index => rowSizes.current[index] || 150, []);
+        const getRowSize = useCallback(index => rowSizes.current[index] || 150, []);
 
-    const setRowSize = React.useCallback((index, size) => {
-        rowSizes.current[index] = size + GUTTER_SIZE;
+        const setRowSize = useCallback((index, size) => {
+            rowSizes.current[index] = size + GUTTER_SIZE;
 
-        listRef.current.resetAfterIndex(index); //may be able to collect them all and use a timeout function for debouncing
-    }, []);
+            localListRef.current.resetAfterIndex(index); //may be able to collect them all and use a timeout function for debouncing
+        }, []);
 
-    return (
-        items.length > 0 ?
+        return (
             <List
                 height={listHeight}
                 width={"100%"}
                 itemCount={items.length}
                 itemSize={getRowSize}
-                ref={listRef}
+                ref={mergeRefs(localListRef, ref)}
             >
                 {
                     ({ index, style }) => <ListRow
@@ -40,6 +41,6 @@ export default function DynamicallySizedList({ items, onAction }) {
                     />
                 }
             </List>
-            : null //placeholder
-    );
-};
+        );
+    }
+);
