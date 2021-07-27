@@ -1,37 +1,51 @@
-import React from 'react';
+import React, { useEffect, forwardRef } from 'react';
 import './App.css';
 import List from './DynamicallySizedList'
+import InfiniteLoader from "react-window-infinite-loader";
 
-function randomDate(start, end) {
-    let date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-    return date.getTime();
-  }
+const DataProvider = () => {
+    const [data, setData] = React.useState([]);
+  
+    const isItemLoaded = index => index < data.length && data[index] !== null;
 
-const App = () => {
-    const [items, setItems] = React.useState([]);
+    const loadMoreItems = (startIndex, stopIndex) => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const newData = [...data];
+          for (let idx = startIndex; idx < stopIndex; idx++) {
+            newData[idx] = faker.lorem.sentence();
+          }
+          setData(newData);
+          resolve();
+        }, 2000);
+      });
+    };
 
-    React.useEffect(() => {
-        let initialItems = Array(1000)
+    useEffect(() => {
+        //populate array initially
+        //initialized data to junk. we should remove this later
+        let initialItems = Array(100)
             .fill(true)
             .map(_ => ({
                 author: {
                     name: Math.random()
-                    .toString(36)
-                    .substr(2)
-                    .repeat(Math.ceil(Math.random() * 10)),
+                        .toString(36)
+                        .substr(2)
+                        .repeat(Math.ceil(Math.random() * 10)),
                     photoUrl: "https://picsum.photos/200",
                 },
-                updated: randomDate(new Date(2020, 0, 1), new Date()),
+                updated: Date.now(),
                 content: (Math.random()
                     .toString(36)
                     .substr(2) + " ")
                     .repeat(Math.ceil(Math.random() * 10)),
             }));
 
-        setItems(initialItems);
+        setData(initialItems);
     }, []);
 
     const toggleItemActive = index => {
+        /*
         let newitems = [...items];
 
         const item = newitems[index];
@@ -41,14 +55,25 @@ const App = () => {
         };
 
         setItems(newitems);
+        */
     }
 
     return (
-        <List
-            items={items}
-            onAction={toggleItemActive}
-        />
+        <InfiniteLoader
+            isItemLoaded={isItemLoaded}
+            itemCount={data.length}
+            loadMoreItems={loadMoreItems}
+        >
+            {({ onItemsRendered, ref }) => (
+                <List
+                    items={data}
+                    onAction={toggleItemActive}
+                    onItemsRendered={onItemsRendered}
+                    ref={ref}
+                />
+            )}
+        </InfiniteLoader>
     );
 };
 
-export default App;
+export default DataProvider;

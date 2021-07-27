@@ -17,7 +17,7 @@ export default memo(function ListRow({ item, currentRowSize, setRowSize, onActio
 
     useEffect(() => {
         if (currentRowSize !== root.current.getBoundingClientRect().height)
-            setRowSize(index, root.current.getBoundingClientRect().height);
+            setRowSize(index, root.current.getBoundingClientRect().height); //need to tell the list to resize us and send our new height
     }, [windowWidth]);
 
     return (
@@ -26,7 +26,7 @@ export default memo(function ListRow({ item, currentRowSize, setRowSize, onActio
             className={"cell"}
         >
             {//will we need item.id? probably as a key. take this part out and use it as an argument
-                loading ? null :
+                item ?
                     <Card
                         onClick={() => onAction(index)}
                         className={"card"}
@@ -55,6 +55,7 @@ export default memo(function ListRow({ item, currentRowSize, setRowSize, onActio
                             {item.content}
                         </CardContent>
                     </Card>
+                    : null
             }
         </div>
     );
