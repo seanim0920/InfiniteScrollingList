@@ -68,10 +68,11 @@ const DataProvider = () => {
             {({ onItemsRendered, ref }) => (
                 <DynamicallySizedList
                     items={data}
-                    onAction={toggleItemActive}
                     onItemsRendered={onItemsRendered}
                     ref={ref}
-                />
+                >
+
+                </DynamicallySizedList>
             )}
         </InfiniteLoader>
     );

@@ -11,12 +11,12 @@ import IconButton from "@material-ui/core/IconButton";
 
 const loading = false;
 
-export default memo(function ListRow({ item, currentRowSize, setRowSize, onAction, index, style }) {
+export default memo(function ListRow({ item, setRowSize, index, style }) {
     const root = useRef();
     const [windowWidth] = useWindowSize();
 
     useEffect(() => {
-        if (root.current && currentRowSize !== root.current.getBoundingClientRect().height)
+        if (item)
             setRowSize(index, root.current.getBoundingClientRect().height); //need to tell the list to resize us and send our new height
     }, [windowWidth, item]);
 
@@ -28,7 +28,7 @@ export default memo(function ListRow({ item, currentRowSize, setRowSize, onActio
             {//will we need item.id? probably as a key. take this part out and use it as an argument
                 item ?
                     <Card
-                        onClick={() => onAction(index)}
+                        onClick={() => {}}
                         className={"card"}
                         ref={root}>
                         <CardHeader

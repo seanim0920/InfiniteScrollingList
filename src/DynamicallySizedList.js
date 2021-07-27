@@ -9,7 +9,7 @@ const GUTTER_SIZE = 15;
 const MARGIN_SIZE = 30;
 
 export const DynamicallySizedList = forwardRef(
-    ({ items, onAction, onItemsRendered }, ref) => {
+    ({ items, onItemsRendered }, ref) => {
         const localListRef = useRef();
         const rowSizes = useRef({});
         const listHeight = getContainerHeight();
@@ -17,9 +17,11 @@ export const DynamicallySizedList = forwardRef(
         const getRowSize = useCallback(index => rowSizes.current[index] || 400, []);
 
         const setRowSize = useCallback((index, size) => {
-            rowSizes.current[index] = size + GUTTER_SIZE;
-
-            localListRef.current.resetAfterIndex(index); //may be able to collect them all and use a timeout function for debouncing
+            if (rowSizes.current[index] !== size + GUTTER_SIZE) {
+                rowSizes.current[index] = size + GUTTER_SIZE;
+    
+                localListRef.current.resetAfterIndex(index); //may be able to collect them all and use a timeout function for debouncing
+            }
         }, []);
 
         return (
@@ -37,8 +39,6 @@ export const DynamicallySizedList = forwardRef(
                         item={items[index]}
                         index={index}
                         style={{ ...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)` }}
-                        onAction={onAction}
-                        currentRowSize={getRowSize(index)}
                         setRowSize={setRowSize}
                     />
                 }
