@@ -1,6 +1,6 @@
 import React, { useEffect, forwardRef } from 'react';
 import './App.css';
-import List from './DynamicallySizedList'
+import {DynamicallySizedList} from './DynamicallySizedList'
 import InfiniteLoader from "react-window-infinite-loader";
 
 const DataProvider = () => {
@@ -65,7 +65,7 @@ const DataProvider = () => {
             loadMoreItems={loadMoreItems}
         >
             {({ onItemsRendered, ref }) => (
-                <List
+                <DynamicallySizedList
                     items={data}
                     onAction={toggleItemActive}
                     onItemsRendered={onItemsRendered}
