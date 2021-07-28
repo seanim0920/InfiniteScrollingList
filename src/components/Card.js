@@ -5,8 +5,21 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 
-export default function Cell({photoHost, item, index}) {
+const useStyles = makeStyles(theme =>
+    createStyles({
+        avatar: {
+            height: "2.5rem",
+            width: "2.5rem",
+            marginRight: "0.75rem",
+        }
+    })
+);
+
+export default function Cell({ photoHost, item, index }) {
+    const classes = useStyles();
+
     return (
         <Card
             onClick={() => { }}
@@ -14,12 +27,12 @@ export default function Cell({photoHost, item, index}) {
         >
             <CardHeader
                 avatar={ //what units are proper??
-                    <Avatar height={"30rem"} width={"30rem"} alt={item.author.name} src={photoHost + item.author.photoUrl} aria-label="recipe">
+                    <Avatar className={classes.avatar} alt={item.author.name} src={photoHost + item.author.photoUrl} aria-label="recipe">
                         {item.author.name.charAt(0)}
                     </Avatar>
                 }
                 action={
-                    <button>placeholder</button>
+                    <button>placeholdjkhier</button>
                 }
                 title={
                     <strong>

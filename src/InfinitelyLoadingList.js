@@ -8,7 +8,7 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
     const [nextPageToken, setNextPageToken] = useState();
     const [data, setData] = useState([null]);
 
-    const isItemLoaded = index => index < data.length - loadingPoint; //condition to determine if we should load more items. why 0.3?
+    const isItemLoaded = index => nextPageToken === null || index < data.length - loadingPoint; //condition to determine if we should load more items. why 0.3?
 
     const setNewData = isNextPageLoading ? () => { } : (startIndex, stopIndex) => {
         setIsNextPageLoading(true);
@@ -19,12 +19,16 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
             newData.pop();
             newData.push(...newItems);
             if (nextPageToken) { //what if it's the end of the list? make sure the list can end properly. test it
-                setNextPageToken(nextPageToken);
                 newData.push(null);
             }
             setData(newData);
+            setNextPageToken(nextPageToken);
         })
-        .catch(e=>console.warn("Error loading more items: ", e))
+        .catch(e=>{
+            console.warn("Error loading more items: ", e);
+            setData([]);
+            setNextPageToken(null);
+        })
         .finally(()=>setIsNextPageLoading(false))
         
     };
@@ -32,7 +36,7 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
     return (
         <InfiniteLoader
             isItemLoaded={isItemLoaded}
-            itemCount={data.length + 1}
+            itemCount={data.length}
             loadMoreItems={setNewData}
         >
             {({ onItemsRendered, ref }) => (

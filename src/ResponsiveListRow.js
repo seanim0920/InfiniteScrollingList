@@ -14,7 +14,6 @@ export default memo(function ResponsiveListRow({ item, setRowSize, index, style,
     return (
         <div
             style={style}
-            className={"cell"}
         >
             {
                 item ?
