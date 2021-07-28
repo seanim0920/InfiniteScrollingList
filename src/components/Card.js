@@ -36,7 +36,7 @@ export default function Cell({ photoHost, item, index }) {
                 }
                 title={
                     <strong>
-                        {item.author.name}
+                        {index}
                     </strong>
                 }
                 subheader={
