@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState, useCallback, memo } from 'react';
-import './App.css';
 import { areEqual } from 'react-window'
 import { useWindowSize } from "./hooks/getCurrentWindowSize";
 
