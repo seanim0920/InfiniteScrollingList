@@ -3,21 +3,21 @@ import { areEqual } from 'react-window'
 import { useWindowSize } from "./hooks/getCurrentWindowSize";
 
 export default memo(function ResponsiveListRow({ item, setRowSize, index, style, children }) {
-    const root = useRef();
+    const cellContainer = useRef();
     const [windowWidth] = useWindowSize();
 
     useEffect(() => {
-        if (item) setRowSize(index, root.current.getBoundingClientRect().height); //need to tell the list to resize us and send our new height
+        if (item) setRowSize(index, cellContainer.current.getBoundingClientRect().height); //need to tell the list to resize us and send our new height
     }, [windowWidth, item]);
 
-    return (
+    return ( //the outer div applies a placeholder style, while the inner div measures the exact size of the cell
         <div
             style={style}
         >
             {
                 item ?
                     <div
-                        ref={root}
+                        ref={cellContainer}
                     >
                         {//will we need item.id? probably as a key. take this part out and use it as an argument
                             children({ item, index })
