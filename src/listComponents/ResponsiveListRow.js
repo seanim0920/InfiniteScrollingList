@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState, useCallback, memo } from 'react';
+import React, { useRef, useEffect, memo } from 'react';
 import { areEqual } from 'react-window'
-import { useWindowSize } from "./hooks/getCurrentWindowSize";
+import { useWindowSize } from "helperFunctions/getCurrentWindowSize";
 
 export default memo(function ResponsiveListRow({ item, setRowSize, index, style, children }) {
     const cellContainer = useRef();

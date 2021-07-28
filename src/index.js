@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { InfinitelyLoadingList } from './InfinitelyLoadingList'
-import { ajaxCall } from './hooks/ajaxCall'
-import Card from './components/Card'
-import './App.css'
+import { InfinitelyLoadingList } from 'listComponents/InfinitelyLoadingList'
+import { ajaxCall } from 'helperFunctions/ajaxCall'
+import Card from 'styleComponents/Card'
 
 const loadMoreItemsAsync = (nextPageToken) => {
     let url = 'http://message-list.appspot.com/messages?limit=' + 100;

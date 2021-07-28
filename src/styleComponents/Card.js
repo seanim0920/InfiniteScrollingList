@@ -1,5 +1,5 @@
 import React, { useEffect, useState, forwardRef } from 'react';
-import { printTime } from "../hooks/printTime";
+import { printTime } from "helperFunctions/printTime";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";

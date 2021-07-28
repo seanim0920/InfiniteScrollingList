@@ -24,7 +24,8 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.js']
+    extensions: ['*', '.js'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
   output: {
     path: path.resolve(__dirname, './dist'),

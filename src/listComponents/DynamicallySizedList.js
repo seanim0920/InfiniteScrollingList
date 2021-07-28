@@ -3,8 +3,8 @@
 import React, { useRef, useCallback, forwardRef } from 'react';
 import { VariableSizeList } from 'react-window'
 import ListRow from './ResponsiveListRow'
-import { getContainerHeight } from './hooks/getContainerHeight'
-import { mergeRefs } from './hooks/mergeRefs'
+import { getContainerHeight } from 'helperFunctions/getContainerHeight'
+import { mergeRefs } from 'helperFunctions/mergeRefs'
 
 const GUTTER_SIZE = 15;
 const MARGIN_SIZE = 30;
