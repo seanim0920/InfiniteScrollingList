@@ -1,7 +1,7 @@
 html {
     font-family: sans-serif;
     font-size: 2.25rem;
-    line-height: 3rem;
+    line-height: 1.5em;
 }
 
 body {
@@ -17,7 +17,7 @@ html, body {
 }
 
 .card {
-    padding: 0.75rem 1rem 0.25rem;
+    padding: 0.75em 1em 0.5em;
     text-align: left;
     overflow-wrap: break-word;
 }
