@@ -9,7 +9,7 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
 
     const isItemLoaded = index => nextPageToken === null || index < data.length - loadingPoint; //condition to determine if we should load more items. why 0.3?
 
-    const setNewData = isNextPageLoading ? () => { } : (startIndex, stopIndex) => {
+    const appendNewData = isNextPageLoading ? () => { } : () => {
         setIsNextPageLoading(true);
 
         loadMoreItemsAsync(nextPageToken)
@@ -38,7 +38,7 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
         <InfiniteLoader
             isItemLoaded={isItemLoaded}
             itemCount={data.length}
-            loadMoreItems={setNewData}
+            loadMoreItems={appendNewData}
         >
             {({ onItemsRendered, ref }) => (
                 <DynamicallySizedList
