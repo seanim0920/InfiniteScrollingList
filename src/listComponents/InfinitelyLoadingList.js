@@ -31,8 +31,15 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
             .finally(() =>
                 setIsNextPageLoading(false)
             )
-
     };
+    
+    const changeList = changeDataFunction => {
+        console.log("called from infinteirhlis")
+        const newData = [...data];
+        const replaceData = changeDataFunction(newData);
+        console.log("data cjgheiajdw")
+        setData(replaceData);
+    }
 
     return (
         <InfiniteLoader
@@ -43,6 +50,7 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
             {({ onItemsRendered, ref }) => (
                 <DynamicallySizedList
                     items={data}
+                    changeList={changeList}
                     onItemsRendered={onItemsRendered}
                     ref={ref}
                 >

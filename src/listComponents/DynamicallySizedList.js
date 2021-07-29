@@ -9,7 +9,7 @@ import { mergeRefs } from 'helperFunctions/mergeRefs'
 const DEFAULT_ROW_SIZE = 400;
 
 export const DynamicallySizedList = forwardRef(
-    ({ items, onItemsRendered, children }, ref) => {
+    ({ items, changeList, onItemsRendered, children }, ref) => {
         const localListRef = useRef();
         const rowSizesMap = useRef({});
 
@@ -39,12 +39,12 @@ export const DynamicallySizedList = forwardRef(
                             {
                                 ({ index, style }) => (
                                     <ListRow
-                                        item={items[index]}
+                                        itemExists={items[index] != null}
                                         index={index}
                                         style={style}
                                         setRowSize={setRowSize}
                                     >
-                                        {children}
+                                        {children({ item: items[index], index, changeList })}
                                     </ListRow>
                                 )
                             }

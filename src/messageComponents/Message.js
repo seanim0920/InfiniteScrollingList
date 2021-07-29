@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { printTime } from "helperFunctions/printTime";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -32,6 +32,9 @@ const messageStyleObject = {
         overflow: 'hidden',
         visibility: 'hidden',
         position: 'relative',
+
+        display: 'flex',
+        flexDirection: 'row'
     },
     wrapper: {
         overflow: 'hidden',
@@ -42,12 +45,11 @@ const messageStyleObject = {
         width: '100%',
         position: 'relative',
         transitionProperty: 'transform',
-        width: 'auto',
-        paddingBottom: '10px',
-        margin: '15px 30px 10px',
         maxWidth: `calc(100% - 2em - 60px)`,
-        
+        margin: '15px 30px 10px calc(100% + 30px)',
+
         padding: '0.75em 1em 0.5em',
+        paddingBottom: '10px',
         textAlign: 'left',
         overflowWrap: 'break-word',
         textOverflow: 'ellipsis',
@@ -55,22 +57,39 @@ const messageStyleObject = {
     }
 }
 
-export default function Message({ photoHost, item, index, onClick }) {
+export default function Message({ photoHost, item, index, changeList }) {   
+    const cardRef = useRef();
+
+    const removeItem = array => {
+        array.splice(index, 1);
+        return array;
+    }
+    
+    const swipeOptions = {
+        continuous: false,
+        startSlide: 1,
+        swiping: (percentage) => { if (cardRef.current) cardRef.current.style.opacity = 1 + percentage },
+        callback: () => {
+            setTimeout(()=>{
+                changeList(removeItem);
+            }, 300)
+        },//console.log("removeitemonwe-pwef"), changeList(removeItem)},
+        transitionEnd: function (index, elem) { cardRef.current.style.opacity = 1 }
+    }
+
     const classes = useStyles();
 
     const clampOverflow = useCallback((element) => { if (element && element.clientHeight < element.scrollHeight) $clamp(element, { clamp: MAX_LINES, useNativeClamp: false, splitOnChars: ['.', '"', ',', ' '] }); }, []);
 
-    let reactSwipeEl;
-
     return (
         <ReactSwipe
-            swipeOptions={{ continuous: false }}
-            ref={el => (reactSwipeEl = el)}
+            swipeOptions={swipeOptions}
             style={messageStyleObject}
         >
+            <div style={{position: "absolute", right: '-100px', backgroundColor: 'transparent'}}></div>
             <Card
+                ref={cardRef}
                 elevation={3}
-                onClick={onClick}
             >
                 <CardHeader
                     avatar={ //what units are proper??
@@ -85,7 +104,7 @@ export default function Message({ photoHost, item, index, onClick }) {
                     }
                     title={
                         <strong>
-                            {item.author.name}
+                            {index}
                         </strong>
                     }
                     subheader={

@@ -23,15 +23,12 @@ ReactDOM.render(
         loadingPoint={batchSize * 0.3}
     >
         {
-            ({ item, index }) => (
+            ({ item, index, changeList }) => (
                 <Message
                     photoHost={'http://message-list.appspot.com/'}
                     item={item}
                     index={index}
-                    onClick={() => {
-                        backButton.style.visibility = "visible";
-                        setCurrentMessage(item);
-                    }}
+                    changeList={changeList}
                 />
             )
         }
