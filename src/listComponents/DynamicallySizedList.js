@@ -3,7 +3,7 @@
 import React, { useState, useLayoutEffect, useRef, useCallback, forwardRef } from 'react';
 import { VariableSizeList } from 'react-window'
 import ListRow from './ResponsiveListRow'
-import { ListHeightCalculator } from 'helperFunctions/getContainerHeight'
+import { ListHeightCalculator } from './ListHeightCalculator'
 import { mergeRefs } from 'helperFunctions/mergeRefs'
 
 const GUTTER_SIZE = 15;

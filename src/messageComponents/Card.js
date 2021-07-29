@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import $clamp from "clamp-js";
 
 const FONT_SIZE = 1.5;
@@ -25,15 +26,16 @@ const useStyles = makeStyles(theme =>
     })
 );
 
-export default function Cell({ photoHost, item, index }) {
+export default function Cell({ photoHost, item, index, onClick, fullSize }) {
     const classes = useStyles();
 
-    const checkOverflow = useCallback((element) => {if (element && element.clientHeight < element.scrollHeight) $clamp(element, {clamp: MAX_LINES, useNativeClamp: false, splitOnChars: ['.', '"', ',', ' ']});}, []);
+    const checkOverflow = useCallback((element) => { if (element && element.clientHeight < element.scrollHeight) $clamp(element, { clamp: MAX_LINES, useNativeClamp: false, splitOnChars: ['.', '"', ',', ' '] }); }, []);
 
     return (
         <Card
-            onClick={() => { }}
+            elevation={fullSize ? 0 : 3}
             className={"card"}
+            onClick={onClick}
         >
             <CardHeader
                 avatar={ //what units are proper??
@@ -42,11 +44,13 @@ export default function Cell({ photoHost, item, index }) {
                     </Avatar>
                 }
                 action={
-                    <button>placeholdjkhier</button>
+                    <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                    </IconButton>
                 }
                 title={
                     <strong>
-                        {index}
+                        {item.author.name}
                     </strong>
                 }
                 subheader={
@@ -55,7 +59,7 @@ export default function Cell({ photoHost, item, index }) {
                     </small>
                 }
             />
-            <CardContent className={classes.content} ref={checkOverflow}>
+            <CardContent className={fullSize ? "" : classes.content} ref={fullSize ? null : checkOverflow}>
                 {item.content}
             </CardContent>
         </Card>

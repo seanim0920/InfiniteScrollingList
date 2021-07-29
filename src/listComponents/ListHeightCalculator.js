@@ -1,5 +1,5 @@
 import React, { useRef, useLayoutEffect, useState, useCallback, memo, useEffect } from 'react';
-import { useWindowSize } from "./getCurrentWindowSize";
+import { useWindowSize } from "helperFunctions/getCurrentWindowSize";
 
 export const ListHeightCalculator = ({children}) => {
     const [windowWidth, windowHeight] = useWindowSize();
