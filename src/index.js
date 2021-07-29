@@ -4,8 +4,10 @@ import { InfinitelyLoadingList } from 'listComponents/InfinitelyLoadingList'
 import { ajaxCall } from 'helperFunctions/ajaxCall'
 import Card from 'styleComponents/Card'
 
+const batchSize = 100;
+
 const loadMoreItemsAsync = (nextPageToken) => {
-    let url = 'http://message-list.appspot.com/messages?limit=' + 100;
+    let url = 'http://message-list.appspot.com/messages?limit=' + batchSize;
     if (nextPageToken) url += '&pageToken=' + nextPageToken;
 
     return new Promise(function (resolve, reject) {
@@ -18,7 +20,7 @@ const loadMoreItemsAsync = (nextPageToken) => {
 ReactDOM.render(
     <InfinitelyLoadingList
         loadMoreItemsAsync={loadMoreItemsAsync}
-        loadingPoint={30}
+        loadingPoint={batchSize * 0.3}
     >
         {
             ({ item, index }) => (

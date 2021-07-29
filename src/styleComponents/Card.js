@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme =>
             height: "2.5rem",
             width: "2.5rem",
             marginRight: "0.75rem",
+        },
+        content: {
+            overflow: "hidden",
         }
     })
 );
@@ -45,7 +48,7 @@ export default function Cell({ photoHost, item, index }) {
                     </small>
                 }
             />
-            <CardContent>
+            <CardContent className={classes.content}>
                 {item.content}
             </CardContent>
         </Card>
