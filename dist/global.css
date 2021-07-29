@@ -53,3 +53,8 @@ h1{
     font-size: 1.5em;
     margin-left: 1em;
 }
+
+.Item {
+    transition: all 300ms ease-in-out;
+  }
+  

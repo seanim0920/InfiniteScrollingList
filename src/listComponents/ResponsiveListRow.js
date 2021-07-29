@@ -13,6 +13,7 @@ export default memo(function ResponsiveListRow({ itemExists, setRowSize, index, 
     return ( //the outer div applies a placeholder style, while the inner div measures the exact size of the cell
         <div
             style={style}
+            className={"Item"}
         >
             {
                 itemExists ?

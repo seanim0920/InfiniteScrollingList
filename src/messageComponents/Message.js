@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MoreVertIcon from "@material-ui/icons/CloseRounded";
 import $clamp from "clamp-js";
 import ReactSwipe from 'react-swipe';
 
@@ -54,27 +54,32 @@ const messageStyleObject = {
         overflowWrap: 'break-word',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
+
+        transition: 'all 300ms ease-in-out',
     }
 }
 
-export default function Message({ photoHost, item, index, changeList }) {   
+export default function Message({ photoHost, item, index, changeList, setRowSize }) {
+    const swipeRef = useRef();
     const cardRef = useRef();
 
     const removeItem = array => {
         array.splice(index, 1);
         return array;
     }
-    
+
     const swipeOptions = {
         continuous: false,
         startSlide: 1,
-        swiping: (percentage) => { if (cardRef.current) cardRef.current.style.opacity = 1 + percentage },
         callback: () => {
-            setTimeout(()=>{
-                changeList(removeItem);
+            setTimeout(() => {
+                cardRef.current.style.opacity = 0;
+                setRowSize(index, 1);
+                setTimeout(() => {
+                    changeList(removeItem);
+                }, 300)
             }, 300)
-        },//console.log("removeitemonwe-pwef"), changeList(removeItem)},
-        transitionEnd: function (index, elem) { cardRef.current.style.opacity = 1 }
+        },
     }
 
     const classes = useStyles();
@@ -83,10 +88,11 @@ export default function Message({ photoHost, item, index, changeList }) {
 
     return (
         <ReactSwipe
+            ref={swipeRef}
             swipeOptions={swipeOptions}
             style={messageStyleObject}
         >
-            <div style={{position: "absolute", right: '-100px', backgroundColor: 'transparent'}}></div>
+            <div style={{ position: "absolute", right: '-100px', backgroundColor: 'transparent' }}></div>
             <Card
                 ref={cardRef}
                 elevation={3}
@@ -98,7 +104,7 @@ export default function Message({ photoHost, item, index, changeList }) {
                         </Avatar>
                     }
                     action={
-                        <IconButton aria-label="settings">
+                        <IconButton aria-label="settings" onClick={() => {if (swipeRef.current) swipeRef.current.prev()}}>
                             <MoreVertIcon />
                         </IconButton>
                     }
