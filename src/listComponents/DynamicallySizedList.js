@@ -1,9 +1,9 @@
 //A VariableSizeList that manages the sizes of the list rows
 
-import React, { useRef, useCallback, forwardRef } from 'react';
+import React, { useState, useLayoutEffect, useRef, useCallback, forwardRef } from 'react';
 import { VariableSizeList } from 'react-window'
 import ListRow from './ResponsiveListRow'
-import { getContainerHeight } from 'helperFunctions/getContainerHeight'
+import { ListHeightCalculator } from 'helperFunctions/getContainerHeight'
 import { mergeRefs } from 'helperFunctions/mergeRefs'
 
 const GUTTER_SIZE = 15;
@@ -14,7 +14,6 @@ export const DynamicallySizedList = forwardRef(
     ({ items, onItemsRendered, children }, ref) => {
         const localListRef = useRef();
         const rowSizesMap = useRef({});
-        const containerHeight = getContainerHeight();
 
         const getRowSize = useCallback(index => rowSizesMap.current[index] || DEFAULT_ROW_SIZE, []);
 
@@ -27,28 +26,33 @@ export const DynamicallySizedList = forwardRef(
         }, []);
 
         return (
-            <VariableSizeList
-                height={containerHeight}
-                width={"100%"}
-                itemCount={items.length}
-                itemSize={getRowSize}
-                itemData={items}
-                ref={mergeRefs(localListRef, ref)}
-                onItemsRendered={onItemsRendered}
-            >
+            <ListHeightCalculator>
                 {
-                    ({ index, style }) => (
-                        <ListRow
-                            item={items[index]}
-                            index={index}
-                            style={{ ...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)` }}
-                            setRowSize={setRowSize}
+                    (height) =>
+                        <VariableSizeList
+                            height={height}
+                            width={"100%"}
+                            itemCount={items.length}
+                            itemSize={getRowSize}
+                            itemData={items}
+                            ref={mergeRefs(localListRef, ref)}
+                            onItemsRendered={onItemsRendered}
                         >
-                            {children}
-                        </ListRow>
-                    )
+                            {
+                                ({ index, style }) => (
+                                    <ListRow
+                                        item={items[index]}
+                                        index={index}
+                                        style={{ ...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)` }}
+                                        setRowSize={setRowSize}
+                                    >
+                                        {children}
+                                    </ListRow>
+                                )
+                            }
+                        </VariableSizeList>
                 }
-            </VariableSizeList>
+            </ListHeightCalculator>
         );
     }
 );

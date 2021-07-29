@@ -1,26 +1,23 @@
-import React, { useRef, useEffect, useLayoutEffect, useState, useCallback, memo } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useRef, useLayoutEffect, useState, useCallback, memo, useEffect } from 'react';
 import { useWindowSize } from "./getCurrentWindowSize";
 
-export const getContainerHeight = () => {
+export const ListHeightCalculator = ({children}) => {
+    const containerRef = useRef();
     const [windowWidth, windowHeight] = useWindowSize();
     const [containerHeight, setContainerHeight] = useState(0);
-    const rootElement = ReactDOM.findDOMNode(this);
-
+    const [rootElement, setRootElement] = useState(null);
+    
     useLayoutEffect(() => {
-        const heightMeasurer = document.createElement('div');
-        heightMeasurer.style.visibility = "hidden";
-        heightMeasurer.style.height = "100%";
-        rootElement.prepend(heightMeasurer);
+        setRootElement(containerRef.current.parentNode);
     }, [])
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setContainerHeight(0);
     }, [windowHeight])
 
-    useEffect(() => {
-        setContainerHeight(rootElement.getBoundingClientRect().height);
-    }, [containerHeight])
+    useLayoutEffect(() => {
+        if (rootElement) setContainerHeight(rootElement.getBoundingClientRect().height);
+    }, [rootElement, containerHeight])
 
-    return containerHeight;
+    return <div ref={containerRef}>{children(containerHeight)}</div>
 };
