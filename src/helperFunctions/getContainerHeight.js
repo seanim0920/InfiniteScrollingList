@@ -2,14 +2,9 @@ import React, { useRef, useLayoutEffect, useState, useCallback, memo, useEffect 
 import { useWindowSize } from "./getCurrentWindowSize";
 
 export const ListHeightCalculator = ({children}) => {
-    const containerRef = useRef();
     const [windowWidth, windowHeight] = useWindowSize();
     const [containerHeight, setContainerHeight] = useState(0);
     const [rootElement, setRootElement] = useState(null);
-    
-    useLayoutEffect(() => {
-        setRootElement(containerRef.current.parentNode);
-    }, [])
 
     useLayoutEffect(() => {
         setContainerHeight(0);
@@ -19,5 +14,7 @@ export const ListHeightCalculator = ({children}) => {
         if (rootElement) setContainerHeight(rootElement.getBoundingClientRect().height);
     }, [rootElement, containerHeight])
 
-    return <div ref={containerRef}>{children(containerHeight)}</div>
+    const getRootElement = useCallback((element) => {if (element) setRootElement(element.parentNode)}, [])
+
+    return <div ref={getRootElement}>{children(containerHeight)}</div>
 };
