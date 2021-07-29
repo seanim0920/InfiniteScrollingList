@@ -71,9 +71,14 @@ export default function Message({ photoHost, item, index, changeList, setRowSize
     const swipeOptions = {
         continuous: false,
         startSlide: 1,
+        /*
+        swiping: (percentage) => {
+            if (cardRef.current) cardRef.current.style.opacity = 1 + percentage;
+        },
+        */
         callback: () => {
+            if (cardRef.current) cardRef.current.style.opacity = 0;
             setTimeout(() => {
-                cardRef.current.style.opacity = 0;
                 setRowSize(index, 1);
                 setTimeout(() => {
                     changeList(removeItem);
