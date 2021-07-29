@@ -23,8 +23,10 @@
         "clamp-js": "^0.7.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
+        "react-swipe": "^6.0.4",
         "react-window": "^1.8.6",
-        "react-window-infinite-loader": "^1.0.7"
+        "react-window-infinite-loader": "^1.0.7",
+        "swipe-js-iso": "^2.1.5"
     },
     "devDependencies": {
         "@babel/core": "^7.14.8",

@@ -6,8 +6,6 @@ import ListRow from './ResponsiveListRow'
 import { ListHeightCalculator } from './ListHeightCalculator'
 import { mergeRefs } from 'helperFunctions/mergeRefs'
 
-const GUTTER_SIZE = 15;
-const MARGIN_SIZE = 30;
 const DEFAULT_ROW_SIZE = 400;
 
 export const DynamicallySizedList = forwardRef(
@@ -18,8 +16,8 @@ export const DynamicallySizedList = forwardRef(
         const getRowSize = useCallback(index => rowSizesMap.current[index] || DEFAULT_ROW_SIZE, []);
 
         const setRowSize = useCallback((index, size) => {
-            if (rowSizesMap.current[index] !== size + GUTTER_SIZE) {
-                rowSizesMap.current[index] = size + GUTTER_SIZE;
+            if (rowSizesMap.current[index] !== size) {
+                rowSizesMap.current[index] = size;
 
                 localListRef.current.resetAfterIndex(index);
             }
@@ -43,7 +41,7 @@ export const DynamicallySizedList = forwardRef(
                                     <ListRow
                                         item={items[index]}
                                         index={index}
-                                        style={{ ...style, top: style.top + GUTTER_SIZE, left: style.left + MARGIN_SIZE, width: `calc(${style.width} - ${MARGIN_SIZE * 2}px)` }}
+                                        style={style}
                                         setRowSize={setRowSize}
                                     >
                                         {children}
