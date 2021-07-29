@@ -26,14 +26,14 @@ const useStyles = makeStyles(theme =>
     })
 );
 
-export default function Cell({ photoHost, item, index, onClick, fullSize }) {
+export default function Message({ photoHost, item, index, onClick }) {
     const classes = useStyles();
 
     const checkOverflow = useCallback((element) => { if (element && element.clientHeight < element.scrollHeight) $clamp(element, { clamp: MAX_LINES, useNativeClamp: false, splitOnChars: ['.', '"', ',', ' '] }); }, []);
 
     return (
         <Card
-            elevation={fullSize ? 0 : 3}
+            elevation={3}
             className={"card"}
             onClick={onClick}
         >
@@ -59,7 +59,7 @@ export default function Cell({ photoHost, item, index, onClick, fullSize }) {
                     </small>
                 }
             />
-            <CardContent className={fullSize ? "" : classes.content} ref={fullSize ? null : checkOverflow}>
+            <CardContent className={classes.content} ref={checkOverflow}>
                 {item.content}
             </CardContent>
         </Card>
