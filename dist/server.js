@@ -17,7 +17,7 @@ const config = {
 app.use(auth(config));
 
 app.get('*', requiresAuth(), (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'app.html'));
+  res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
 app.listen(port);
