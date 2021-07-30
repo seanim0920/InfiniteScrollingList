@@ -1,14 +1,15 @@
 //A VariableSizeList that manages the sizes of the list rows
 
-import React, { useState, useLayoutEffect, useRef, useCallback, forwardRef } from 'react';
+import React, { useRef, useCallback, forwardRef } from 'react';
 import { VariableSizeList } from 'react-window'
-import ListRow from './ResponsiveListRow'
-import { ListHeightCalculator } from './ListHeightCalculator'
+import { ResponsiveListRow } from './ResponsiveListRow'
+import { ContainerHeightCalculator } from './ContainerHeightCalculator'
 import { mergeRefs } from 'helperFunctions/mergeRefs'
+import PropTypes from 'prop-types'; 
 
 const DEFAULT_ROW_SIZE = 400;
 
-export const DynamicallySizedList = forwardRef(
+const DynamicallySizedList = forwardRef(
     ({ items, changeList, onItemsRendered, children }, ref) => {
         const localListRef = useRef();
         const rowSizesMap = useRef({});
@@ -24,7 +25,7 @@ export const DynamicallySizedList = forwardRef(
         }, []);
 
         return (
-            <ListHeightCalculator>
+            <ContainerHeightCalculator>
                 {
                     (height) =>
                         <VariableSizeList
@@ -38,19 +39,28 @@ export const DynamicallySizedList = forwardRef(
                         >
                             {
                                 ({ index, style }) => (
-                                    <ListRow
+                                    <ResponsiveListRow
                                         itemExists={items[index] != null}
                                         index={index}
                                         style={style}
                                         setRowSize={setRowSize}
                                     >
                                         {children({ item: items[index], index, changeList, setRowSize })}
-                                    </ListRow>
+                                    </ResponsiveListRow>
                                 )
                             }
                         </VariableSizeList>
                 }
-            </ListHeightCalculator>
+            </ContainerHeightCalculator>
         );
     }
 );
+
+DynamicallySizedList.propTypes = {
+    items: PropTypes.array.isRequired,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
+    changeList: PropTypes.func,
+    onItemsRendered: PropTypes.func,
+}
+
+export { DynamicallySizedList };

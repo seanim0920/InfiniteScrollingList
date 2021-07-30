@@ -10,6 +10,7 @@ import CloseIcon from "@material-ui/icons/CloseRounded";
 import CancelIcon from "@material-ui/icons/CancelRounded";
 import $clamp from "clamp-js";
 import ReactSwipe from 'react-swipe';
+import PropTypes from 'prop-types'; 
 
 const FONT_SIZE = 1.5;
 const MAX_LINES = 5;
@@ -68,7 +69,7 @@ const messageStyleObject = {
     }
 }
 
-export default function Message({ photoHost, item, index, changeList, setRowSize }) {
+function Message({ photoHost, item, index, changeList }) {
     const indicatorRef = useRef();
     const swipeRef = useRef();
     const cardRef = useRef();
@@ -150,3 +151,12 @@ export default function Message({ photoHost, item, index, changeList, setRowSize
         </ReactSwipe>
     )
 }
+
+Message.propTypes = {
+    photoHost: PropTypes.string.isRequired,
+    item: PropTypes.object,
+    index: PropTypes.number.isRequired,
+    changeList: PropTypes.func.isRequired,
+}
+
+export default Message;

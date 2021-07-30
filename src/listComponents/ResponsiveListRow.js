@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, memo } from 'react';
 import { areEqual } from 'react-window'
 import { useWindowSize } from "helperFunctions/getCurrentWindowSize";
+import PropTypes from 'prop-types'; 
 
-export default memo(function ResponsiveListRow({ itemExists, setRowSize, index, style, children }) {
+function ListRow({ itemExists, setRowSize, index, style, children }) {
     const cellContainer = useRef();
     const [windowWidth] = useWindowSize();
 
@@ -30,4 +31,14 @@ export default memo(function ResponsiveListRow({ itemExists, setRowSize, index, 
             }
         </div>
     );
-}, areEqual);
+};
+
+ListRow.propTypes = {
+    itemExists: PropTypes.bool.isRequired,
+    setRowSize: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired,
+    index: PropTypes.number.isRequired,
+    style: PropTypes.object.isRequired,
+}
+
+export const ResponsiveListRow = memo(ListRow, areEqual);

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { DynamicallySizedList } from './DynamicallySizedList'
 import InfiniteLoader from "react-window-infinite-loader";
+import PropTypes from 'prop-types'; 
 
-export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoint = 30 }) => {
+const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoint = 30 }) => {
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
     const [nextPageToken, setNextPageToken] = useState();
     const [data, setData] = useState([null]);
@@ -34,10 +35,8 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
     };
     
     const changeList = changeDataFunction => {
-        console.log("called from infinteirhlis")
         const newData = [...data];
         const replaceData = changeDataFunction(newData);
-        console.log("data cjgheiajdw")
         setData(replaceData);
     }
 
@@ -60,3 +59,11 @@ export const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoi
         </InfiniteLoader>
     );
 };
+
+InfinitelyLoadingList.propTypes = {
+    loadMoreItemsAsync: PropTypes.func.isRequired,
+    children: PropTypes.func.isRequired,
+    loadingPoint: PropTypes.number,
+}
+
+export { InfinitelyLoadingList };
