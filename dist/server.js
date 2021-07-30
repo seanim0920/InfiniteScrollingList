@@ -1,3 +1,7 @@
+const express = require('express');
+const path = require('path');
+const port = process.env.PORT || 8080;
+const app = express();
 const { auth } = require('express-openid-connect');
 
 const config = {
@@ -16,3 +20,5 @@ app.use(auth(config));
 app.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
+
+app.listen(port);
