@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useLayoutEffect } from 'react';
 import { printTime } from "helperFunctions/printTime";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -65,20 +65,33 @@ function Message({ photoHost, item, removeItem }) {
     const indicatorRef = useRef();
     const swipeRef = useRef();
     const cardRef = useRef();
+    
+    const makeVisible = () => {
+        cardRef.current.style.opacity = 1;
+        indicatorRef.current.style.opacity = 0;
+    }
+    
+    useLayoutEffect(() => {
+        cardRef.current.addEventListener("touchend", makeVisible);
+        return () => cardRef.current.removeEventListener("touchend", makeVisible);
+    }, []);
 
     const swipeOptions = {
         continuous: false,
         startSlide: 1,
         swiping: (percentage) => {
-            console.log(percentage);
-            if (indicatorRef.current) indicatorRef.current.style.opacity = -percentage * 2;
-        },
+            if (cardRef.current) {
+                cardRef.current.style.opacity = 0.8 + percentage;
+                indicatorRef.current.style.opacity = -percentage * 2;
+            }
+        },        
         transitionEnd: () => {
-
+            cardRef.current.style.opacity = 1;
         },
         callback: () => {
-            if (cardRef.current) cardRef.current.style.opacity = 0;
-            if (indicatorRef.current) indicatorRef.current.style.opacity = 1;
+            cardRef.current.removeEventListener("touchend", makeVisible);
+            cardRef.current.style.opacity = 0;
+            indicatorRef.current.style.opacity = 1;
             setTimeout(() => {
                 removeItem();
             }, 300)
