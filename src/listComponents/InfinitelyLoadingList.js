@@ -10,7 +10,7 @@ const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoint = 30
     const [nextPageToken, setNextPageToken] = useState();
     const [data, setData] = useState([null]);
 
-    const isItemLoaded = index => nextPageToken === null || index < data.length - loadingPoint; //condition to determine if we should load more items. why 0.3?
+    const isItemLoaded = index => nextPageToken === null || index < data.length - loadingPoint; //condition to determine if we should load more items.
 
     const appendNewData = isNextPageLoading ? () => { } : () => {
         setIsNextPageLoading(true);
