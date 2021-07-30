@@ -34,7 +34,6 @@ ReactDOM.render(
                 <Message
                     photoHost={'http://message-list.appspot.com/'}
                     item={item}
-                    index={index}
                     removeItem={() => removeItem(changeList, index)}
                     setRowSize={setRowSize}
                 />

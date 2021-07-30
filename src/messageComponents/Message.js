@@ -61,7 +61,7 @@ const messageStyleObject = {
     }
 }
 
-function Message({ photoHost, item, index, removeItem }) {
+function Message({ photoHost, item, removeItem }) {
     const indicatorRef = useRef();
     const swipeRef = useRef();
     const cardRef = useRef();
@@ -113,7 +113,7 @@ function Message({ photoHost, item, index, removeItem }) {
                     }
                     title={
                         <strong>
-                            {index}
+                            {item.author.name}
                         </strong>
                     }
                     subheader={
@@ -136,7 +136,6 @@ function Message({ photoHost, item, index, removeItem }) {
 Message.propTypes = {
     photoHost: PropTypes.string.isRequired,
     item: PropTypes.object,
-    index: PropTypes.number.isRequired,
     removeItem: PropTypes.func.isRequired,
 }
 
