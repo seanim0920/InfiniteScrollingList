@@ -6,42 +6,78 @@ export default memo(function ResponsiveListRow({ item, setRowSize, index, style,
     const outerContainer = useRef();
     const cellContainer = useRef();
     const [windowWidth] = useWindowSize();
-    const [transitionEnabled, setTransitionEnabled] = useState(true);
+    const [collapseTransition, setCollapseTransition] = useState("none");
 
     useEffect(() => {
         if (item) setRowSize(index, cellContainer.current.getBoundingClientRect().height); //need to tell the list to resize us and send our new height
     }, [windowWidth, item]);
-    
-    useEffect(() => {
-        if (style.height <= 1) {
-            setTransitionEnabled(false);
-        }
-    }, [style]);
 
-    const animateThis = () => {
-        //if (outerContainer.current)
-                setRowSize(index, 1);
-                //outerContainer.current.animate([{backgroundColor: "blue", height: "100px"}, {backgroundColor: "red", height: "0px"}], {duration: 300, fill: "forwards"});
+    const removeItem = (transition) => {
+        if (transition) {
+            console.log("removing item!")
+            setCollapseTransition(transition);
+        }
+        else
+            changeList(array => {
+                array.splice(index, 1);
+                return array;
+            });
     }
 
-    return ( //the outer div applies a placeholder style, while the inner div measures the exact size of the cell
-        <div
-            style={{...style, transition:  "all 300ms ease-in-out, background-color .01s linear"}}
-            ref={outerContainer}
-        >
-            {
-                item ?
-                    <div
-                        ref={cellContainer}
-                    >
-                        {//will we need item.id? probably as a key. take this part out and use it as an argument
-                            children({item, setRowSize, index, style, changeList, animateThis})
-                        }
-                    </div>
-                    : <h2>
-                        Loading...
-                    </h2>
+    useEffect(() => {
+        if (collapseTransition != "none") {
+            if (collapseTransition !== undefined) {
+                console.log("collapse transition is set" + collapseTransition);
+                setTimeout(() => {
+                    setRowSize(index, 1);
+                }, 3000)
+            } else {
+                console.log("removing item");
+                changeList(array => {
+                    array.splice(index, 1);
+                    return array;
+                });
             }
-        </div>
+        }
+    }, [collapseTransition]);
+
+    return ( //the outer div applies a placeholder style, while the inner div measures the exact size of the cell
+        collapseTransition != "none" ?
+            <div
+                style={{ ...style, transition: collapseTransition, backgroundColor: "red" }}
+                ref={outerContainer}
+            >
+                {
+                    item ?
+                        <div
+                            ref={cellContainer}
+                        >
+                            {//will we need item.id? probably as a key. take this part out and use it as an argument
+                                children({ item, setRowSize, index, style, removeItem })
+                            }
+                        </div>
+                        : <h2>
+                            Loading...
+                        </h2>
+                }
+            </div>
+            : <div
+                style={{ ...style }}
+                ref={outerContainer}
+            >
+                {
+                    item ?
+                        <div
+                            ref={cellContainer}
+                        >
+                            {//will we need item.id? probably as a key. take this part out and use it as an argument
+                                children({ item, setRowSize, index, style, removeItem })
+                            }
+                        </div>
+                        : <h2>
+                            Loading...
+                        </h2>
+                }
+            </div>
     );
 }, areEqual);

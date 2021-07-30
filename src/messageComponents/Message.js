@@ -59,7 +59,7 @@ const messageStyleObject = {
     }
 }
 
-export default function Message({ photoHost, item, index, changeList, setRowSize, animateContainer }) {
+export default function Message({ photoHost, item, index, removeItem }) {
     const swipeRef = useRef();
     const cardRef = useRef();
 
@@ -74,7 +74,8 @@ export default function Message({ photoHost, item, index, changeList, setRowSize
         callback: () => {
             if (cardRef.current) cardRef.current.style.opacity = 0;
             setTimeout(() => {
-                animateContainer();
+                console.log("removing item now")
+                removeItem("all 300ms ease-in-out");
             }, 300)
         },
     }
