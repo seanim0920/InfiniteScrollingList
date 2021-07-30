@@ -39,12 +39,13 @@ export const DynamicallySizedList = forwardRef(
                             {
                                 ({ index, style }) => (
                                     <ListRow
-                                        itemExists={items[index] != null}
+                                        item={items[index]}
                                         index={index}
                                         style={style}
                                         setRowSize={setRowSize}
+                                        changeList={changeList}
                                     >
-                                        {children({ item: items[index], index, changeList, setRowSize })}
+                                        {children}
                                     </ListRow>
                                 )
                             }

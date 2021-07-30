@@ -59,14 +59,9 @@ const messageStyleObject = {
     }
 }
 
-export default function Message({ photoHost, item, index, changeList, setRowSize }) {
+export default function Message({ photoHost, item, index, changeList, setRowSize, animateContainer }) {
     const swipeRef = useRef();
     const cardRef = useRef();
-
-    const removeItem = array => {
-        array.splice(index, 1);
-        return array;
-    }
 
     const swipeOptions = {
         continuous: false,
@@ -79,10 +74,7 @@ export default function Message({ photoHost, item, index, changeList, setRowSize
         callback: () => {
             if (cardRef.current) cardRef.current.style.opacity = 0;
             setTimeout(() => {
-                setRowSize(index, 1);
-                setTimeout(() => {
-                    changeList(removeItem);
-                }, 300)
+                animateContainer();
             }, 300)
         },
     }
@@ -115,7 +107,7 @@ export default function Message({ photoHost, item, index, changeList, setRowSize
                     }
                     title={
                         <strong>
-                            {index}
+                            {item.author.name}
                         </strong>
                     }
                     subheader={

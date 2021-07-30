@@ -23,13 +23,14 @@ ReactDOM.render(
         loadingPoint={batchSize * 0.3}
     >
         {
-            ({ item, index, changeList, setRowSize }) => (
+            ({ item, index, changeList, setRowSize, animateThis }) => (
                 <Message
                     photoHost={'http://message-list.appspot.com/'}
                     item={item}
                     index={index}
                     changeList={changeList}
                     setRowSize={setRowSize}
+                    animateContainer={animateThis}
                 />
             )
         }
