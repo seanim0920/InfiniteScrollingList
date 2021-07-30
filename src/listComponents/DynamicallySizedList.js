@@ -31,7 +31,7 @@ export const DynamicallySizedList = forwardRef(
                             height={height}
                             width={"100%"}
                             itemCount={items.length}
-                            itemSize={index => rowSizesMap.current[index] || DEFAULT_ROW_SIZE}
+                            itemSize={getRowSize}
                             itemData={items}
                             ref={mergeRefs(localListRef, ref)}
                             onItemsRendered={onItemsRendered}
