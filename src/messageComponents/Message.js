@@ -114,7 +114,7 @@ function Message({ photoHost, item, removeItem }) {
                 className={classes.root}
             >
                 <CardHeader
-                    avatar={ //what units are proper??
+                    avatar={
                         <Avatar className={classes.avatar} alt={item.author.name} src={photoHost + item.author.photoUrl} aria-label="recipe">
                             {item.author.name.charAt(0)}
                         </Avatar>

@@ -1,5 +1,3 @@
-//A VariableSizeList that manages the sizes of the list rows
-
 import React, { useRef, useCallback, forwardRef } from 'react';
 import { VariableSizeList } from 'react-window'
 import { ResponsiveListRow } from './ResponsiveListRow'
@@ -8,6 +6,8 @@ import { mergeRefs } from 'helperFunctions/mergeRefs'
 import PropTypes from 'prop-types'; 
 
 const DEFAULT_ROW_SIZE = 400;
+
+//A VariableSizeList that manages the sizes of the list rows
 
 const DynamicallySizedList = forwardRef(
     ({ items, changeList, onItemsRendered, children }, ref) => {

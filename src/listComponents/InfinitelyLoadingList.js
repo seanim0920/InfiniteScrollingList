@@ -18,7 +18,7 @@ const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoint = 30
                 const newData = [...data];
                 newData.pop();
                 newData.push(...newItems);
-                if (nextPageToken) { //what if it's the end of the list? make sure the list can end properly. test it
+                if (nextPageToken) {
                     newData.push(null);
                 }
                 setData(newData);
@@ -62,7 +62,7 @@ const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoint = 30
 
 InfinitelyLoadingList.propTypes = {
     loadMoreItemsAsync: PropTypes.func.isRequired,
-    children: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
     loadingPoint: PropTypes.number,
 }
 
