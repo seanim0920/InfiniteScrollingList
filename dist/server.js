@@ -25,4 +25,8 @@ app.get('/global.css', requiresAuth(), (req, res) => {
   res.sendFile(path.resolve(__dirname, 'global.css'));
 });
 
+app.get('/build.js', requiresAuth(), (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'build.js'));
+});
+
 app.listen(port);
