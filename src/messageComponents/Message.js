@@ -80,8 +80,10 @@ export default function Message({ photoHost, item, index, changeList, setRowSize
             if (cardRef.current) cardRef.current.style.opacity = 0;
             setTimeout(() => {
                 setRowSize(index, 1);
+                if (cardRef.current) cardRef.current.style.display = "none";
+                //setRowSize(index, 0);
                 setTimeout(() => {
-                    changeList(removeItem);
+                    //changeList(removeItem);
                 }, 300)
             }, 300)
         },
