@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const port = process.env.PORT || 8080;
 const app = express();
-const { auth } = require('express-openid-connect');
+const { auth, requiresAuth } = require('express-openid-connect');
 
 const config = {
   authRequired: false,
@@ -19,6 +19,10 @@ app.use(auth(config));
 // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
   res.sendFile(req.oidc.isAuthenticated() ? path.resolve(__dirname, 'app.html') : path.resolve(__dirname, 'index.html'));
+});
+
+app.get('/global.css', requiresAuth(), (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'global.css'));
 });
 
 app.listen(port);
