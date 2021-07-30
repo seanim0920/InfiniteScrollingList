@@ -45,7 +45,7 @@ const DynamicallySizedList = forwardRef(
                                         style={style}
                                         setRowSize={setRowSize}
                                     >
-                                        {children({ item: items[index], index, changeList, setRowSize })}
+                                        {children({ item: items[index], index, changeList })}
                                     </ResponsiveListRow>
                                 )
                             }

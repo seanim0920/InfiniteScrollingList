@@ -31,12 +31,11 @@ ReactDOM.render(
         loadingPoint={batchSize * 0.3}
     >
         {
-            ({ item, index, changeList, setRowSize }) => (
+            ({ item, index, changeList }) => (
                 <Message
                     photoHost={host}
                     item={item}
                     removeItem={() => removeItem(changeList, index)}
-                    setRowSize={setRowSize}
                 />
             )
         }
