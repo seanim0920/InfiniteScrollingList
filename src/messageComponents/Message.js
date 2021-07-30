@@ -61,15 +61,10 @@ const messageStyleObject = {
     }
 }
 
-function Message({ photoHost, item, index, changeList }) {
+function Message({ photoHost, item, index, removeItem }) {
     const indicatorRef = useRef();
     const swipeRef = useRef();
     const cardRef = useRef();
-
-    const removeItem = array => {
-        array.splice(index, 1);
-        return array;
-    }
 
     const swipeOptions = {
         continuous: false,
@@ -85,7 +80,7 @@ function Message({ photoHost, item, index, changeList }) {
             if (cardRef.current) cardRef.current.style.opacity = 0;
             if (indicatorRef.current) indicatorRef.current.style.opacity = 1;
             setTimeout(() => {
-                changeList(removeItem);
+                removeItem();
             }, 300)
         },
     }
@@ -142,7 +137,7 @@ Message.propTypes = {
     photoHost: PropTypes.string.isRequired,
     item: PropTypes.object,
     index: PropTypes.number.isRequired,
-    changeList: PropTypes.func.isRequired,
+    removeItem: PropTypes.func.isRequired,
 }
 
 export default Message;

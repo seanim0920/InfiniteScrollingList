@@ -17,6 +17,13 @@ const loadMoreItemsAsync = (nextPageToken) => {
     });
 }
 
+const removeItem = (changeList, index) => {
+    changeList((array) => {
+        array.splice(index, 1);
+        return array;
+    })
+}
+
 ReactDOM.render(
     <InfinitelyLoadingList
         loadMoreItemsAsync={loadMoreItemsAsync}
@@ -28,7 +35,7 @@ ReactDOM.render(
                     photoHost={'http://message-list.appspot.com/'}
                     item={item}
                     index={index}
-                    changeList={changeList}
+                    removeItem={() => removeItem(changeList, index)}
                     setRowSize={setRowSize}
                 />
             )
