@@ -38,14 +38,6 @@ const useStyles = makeStyles(theme =>
             maxHeight: FONT_SIZE * MAX_LINES + "rem",
             overflow: "hidden",
         },
-        indicatorContainer: {
-            opacity: 0,
-            position: "absolute",
-            top: '45%',
-            bottom: '50%',
-            backgroundColor: "transparent",
-            alignItems: "center"
-        },
     })
 );
 
@@ -139,14 +131,8 @@ function Message({ photoHost, item, index, changeList }) {
                     {item.content}
                 </CardContent>
             </Card>
-            <div ref={indicatorRef} className={classes.indicatorContainer}>
-                <CancelIcon style={{
-                    transform: 'scale(2)',
-                    float: 'right',
-                    marginBottom: '1em',
-                    marginRight: '1em',
-                    color: 'gray'
-                }} />
+            <div ref={indicatorRef} style={{ opacity: 0, position: "absolute", top: '45%', bottom: '50%', backgroundColor: "transparent", alignItems: "center" }}>
+                <CancelIcon style={{transform: 'scale(2)', float: 'right', marginBottom: '1em', marginRight: '1em', color: 'gray'}} />
             </div>
         </ReactSwipe>
     )
