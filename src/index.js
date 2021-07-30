@@ -4,10 +4,11 @@ import { ajaxCall } from 'helperFunctions/ajaxCall'
 import { InfinitelyLoadingList } from 'listComponents/InfinitelyLoadingList'
 import Message from 'messageComponents/Message'
 
+const host = 'https://message-list.appspot.com/';
 const batchSize = 100;
 
 const loadMoreItemsAsync = (nextPageToken) => {
-    let url = 'http://message-list.appspot.com/messages?limit=' + batchSize;
+    let url = host + 'messages?limit=' + batchSize;
     if (nextPageToken) url += '&pageToken=' + nextPageToken;
 
     return new Promise(function (resolve, reject) {
@@ -32,7 +33,7 @@ ReactDOM.render(
         {
             ({ item, index, changeList, setRowSize }) => (
                 <Message
-                    photoHost={'http://message-list.appspot.com/'}
+                    photoHost={host}
                     item={item}
                     removeItem={() => removeItem(changeList, index)}
                     setRowSize={setRowSize}
