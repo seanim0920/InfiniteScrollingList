@@ -3,6 +3,8 @@ import { DynamicallySizedList } from './DynamicallySizedList'
 import InfiniteLoader from "react-window-infinite-loader";
 import PropTypes from 'prop-types'; 
 
+//A responsive list that references a callback function to fetch data. It will continue to fetch data when the user scrolls down until the callback returns null.
+
 const InfinitelyLoadingList = ({ children, loadMoreItemsAsync, loadingPoint = 30 }) => {
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
     const [nextPageToken, setNextPageToken] = useState();

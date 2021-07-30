@@ -12,6 +12,9 @@ import $clamp from "clamp-js";
 import ReactSwipe from 'react-swipe';
 import PropTypes from 'prop-types'; 
 
+//A component made specifically for this exercise to display messages from https://message-list.appspot.com/
+//It's modeled after the design guides provided in the exercise plus a few extra details for usability.
+
 const FONT_SIZE = 1.5;
 const MAX_LINES = 5;
 
@@ -65,16 +68,12 @@ function Message({ photoHost, item, removeItem }) {
     const indicatorRef = useRef();
     const swipeRef = useRef();
     const cardRef = useRef();
+    const classes = useStyles();
     
     const makeVisible = () => {
         cardRef.current.style.opacity = 1;
         indicatorRef.current.style.opacity = 0;
     }
-    
-    useLayoutEffect(() => {
-        cardRef.current.addEventListener("touchend", makeVisible);
-        return () => cardRef.current.removeEventListener("touchend", makeVisible);
-    }, []);
 
     const swipeOptions = {
         continuous: false,
@@ -84,9 +83,6 @@ function Message({ photoHost, item, removeItem }) {
                 cardRef.current.style.opacity = 0.8 + percentage;
                 indicatorRef.current.style.opacity = -percentage * 2;
             }
-        },        
-        transitionEnd: () => {
-            cardRef.current.style.opacity = 1;
         },
         callback: () => {
             cardRef.current.removeEventListener("touchend", makeVisible);
@@ -97,8 +93,11 @@ function Message({ photoHost, item, removeItem }) {
             }, 300)
         },
     }
-
-    const classes = useStyles();
+    
+    useLayoutEffect(() => {
+        cardRef.current.addEventListener("touchend", makeVisible);
+        return () => cardRef.current.removeEventListener("touchend", makeVisible);
+    }, []);
 
     const clampOverflow = useCallback((element) => { if (element && element.clientHeight < element.scrollHeight) $clamp(element, { clamp: MAX_LINES, useNativeClamp: false, splitOnChars: ['.', '"', ',', ' '] }); }, []);
 
@@ -115,7 +114,7 @@ function Message({ photoHost, item, removeItem }) {
             >
                 <CardHeader
                     avatar={
-                        <Avatar className={classes.avatar} alt={item.author.name} src={photoHost + item.author.photoUrl} aria-label="recipe">
+                        <Avatar className={classes.avatar} alt={item.author.name} src={photoHost + item.author.photoUrl} aria-label="author">
                             {item.author.name.charAt(0)}
                         </Avatar>
                     }
