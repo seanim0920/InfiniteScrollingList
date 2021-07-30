@@ -1,2 +1,0 @@
-# InfiniteScrollingList
-UXE Exercise
