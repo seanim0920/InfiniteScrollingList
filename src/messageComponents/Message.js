@@ -65,16 +65,6 @@ function Message({ photoHost, item, removeItem }) {
     const indicatorRef = useRef();
     const swipeRef = useRef();
     const cardRef = useRef();
-    
-    const makeVisible = () => {
-        cardRef.current.style.opacity = 1;
-        indicatorRef.current.style.opacity = 0;
-    }
-    
-    useLayoutEffect(() => {
-        cardRef.current.addEventListener("touchend", makeVisible);
-        return () => cardRef.current.removeEventListener("touchend", makeVisible);
-    }, []);
 
     const swipeOptions = {
         continuous: false,
@@ -89,7 +79,6 @@ function Message({ photoHost, item, removeItem }) {
             cardRef.current.style.opacity = 1;
         },
         callback: () => {
-            cardRef.current.removeEventListener("touchend", makeVisible);
             cardRef.current.style.opacity = 0;
             indicatorRef.current.style.opacity = 1;
             setTimeout(() => {
